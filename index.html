@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan de Actividades</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Para ustedes dos</p>
+        <h1>Plan de actividades</h1>
+        <p class="subtitle">Guarden ideas, filtren opciones y elijan algo para hacer juntos.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="randomBtn" class="primary">Elegir una al azar</button>
+        <button id="seedBtn" class="secondary">Cargar ejemplos</button>
+      </div>
+    </header>
+
+    <section class="card config-card">
+      <details>
+        <summary>Configuración para compartir entre ambos</summary>
+        <div class="config-grid">
+          <label>
+            Supabase URL
+            <input id="supabaseUrl" type="text" placeholder="https://xxxx.supabase.co" />
+          </label>
+          <label>
+            Supabase Anon Key
+            <input id="supabaseKey" type="password" placeholder="Pega aquí tu anon key" />
+          </label>
+        </div>
+        <div class="inline-actions">
+          <button id="saveConfigBtn" class="secondary">Guardar configuración</button>
+          <button id="clearConfigBtn" class="ghost">Usar solo este dispositivo</button>
+        </div>
+        <p class="helper">Sin configurar Supabase, la página funciona en este dispositivo usando almacenamiento local. Con Supabase, ambos verán la misma lista.</p>
+      </details>
+    </section>
+
+    <section class="grid two-columns">
+      <section class="card">
+        <h2>Agregar actividad</h2>
+        <form id="activityForm">
+          <div class="form-grid">
+            <label>
+              Actividad
+              <input name="title" type="text" placeholder="Cena en un lugar nuevo" required />
+            </label>
+            <label>
+              Categoría
+              <select name="category">
+                <option value="Cita">Cita</option>
+                <option value="Casa">Casa</option>
+                <option value="Aventura">Aventura</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Relajado">Relajado</option>
+              </select>
+            </label>
+            <label>
+              Presupuesto
+              <select name="budget">
+                <option value="Bajo">Bajo</option>
+                <option value="Medio">Medio</option>
+                <option value="Alto">Alto</option>
+              </select>
+            </label>
+            <label>
+              Duración
+              <select name="duration">
+                <option value="30-60 min">30-60 min</option>
+                <option value="1-2 horas">1-2 horas</option>
+                <option value="Medio día">Medio día</option>
+                <option value="Día completo">Día completo</option>
+              </select>
+            </label>
+            <label>
+              Estado
+              <select name="status">
+                <option value="Pendiente">Pendiente</option>
+                <option value="Favorita">Favorita</option>
+                <option value="Hecha">Hecha</option>
+              </select>
+            </label>
+            <label>
+              Energía
+              <select name="energy">
+                <option value="Baja">Baja</option>
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Notas
+            <textarea name="notes" rows="3" placeholder="Ej. reservar antes, llevar chamarra, revisar horarios..."></textarea>
+          </label>
+          <button type="submit" class="primary full-width">Guardar actividad</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Filtrar opciones</h2>
+        <div class="form-grid">
+          <label>
+            Buscar
+            <input id="searchInput" type="text" placeholder="Buscar actividad..." />
+          </label>
+          <label>
+            Categoría
+            <select id="filterCategory">
+              <option value="">Todas</option>
+              <option value="Cita">Cita</option>
+              <option value="Casa">Casa</option>
+              <option value="Aventura">Aventura</option>
+              <option value="Cultural">Cultural</option>
+              <option value="Relajado">Relajado</option>
+            </select>
+          </label>
+          <label>
+            Presupuesto
+            <select id="filterBudget">
+              <option value="">Todos</option>
+              <option value="Bajo">Bajo</option>
+              <option value="Medio">Medio</option>
+              <option value="Alto">Alto</option>
+            </select>
+          </label>
+          <label>
+            Estado
+            <select id="filterStatus">
+              <option value="">Todos</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Favorita">Favorita</option>
+              <option value="Hecha">Hecha</option>
+            </select>
+          </label>
+        </div>
+        <div id="stats" class="stats"></div>
+      </section>
+    </section>
+
+    <section id="randomResult" class="card hidden"></section>
+
+    <section class="card">
+      <div class="section-header">
+        <h2>Lista de actividades</h2>
+        <span id="modeBadge" class="badge">Modo local</span>
+      </div>
+      <div id="activityList" class="activity-list"></div>
+    </section>
+  </div>
+
+  <template id="activityTemplate">
+    <article class="activity-item">
+      <div class="activity-main">
+        <div class="activity-topline">
+          <h3 class="activity-title"></h3>
+          <div class="chips"></div>
+        </div>
+        <p class="activity-notes"></p>
+      </div>
+      <div class="activity-actions">
+        <button class="ghost favoriteBtn">⭐</button>
+        <button class="ghost doneBtn">✔</button>
+        <button class="ghost deleteBtn">Eliminar</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
